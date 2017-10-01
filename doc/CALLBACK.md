@@ -249,7 +249,7 @@ Reminder: You should never do this in a React context.
 Common Mistakes
 ===============
 
-* **Executing instead of composing.**
+* **Executing instead of composing**
 
   Callbacks must do nothing when you first create them; React might never even call them.
   If you call `.runNow()` when you're creating a `Callback` that's a bug because you're forcing a one-time execution during construction.
@@ -270,6 +270,9 @@ Common Mistakes
     $.modState(_ + 1) >>
     Callback.log("Scheduled state increment by 1")
   ```
+* **Composing $.modState or $.setState with a callback that depends on state**
+
+  `$.modState` `$.setState` may move on to the composed `Callback` before the state has been modified due to React's native `setState`(used internally by the callbacks returned by `$.modState` or `$.setState`) being itself asynchronous.
 
 * **Side-effects (especially accessing mutable state) during construction**
 
